@@ -110,4 +110,31 @@ document.body.appendChild(c);
 setTimeout(()=>c.remove(),5000);
 }
 function lancerVideos(){
-let cards=document.querySelector
+let cards=document.querySelectorAll(".card");
+let vids=document.querySelectorAll("#pageVideos video");
+let prog=document.getElementById("progress");
+let barre=document.getElementById("barreFill");
+let finalMsg=document.getElementById("finalMessage");
+vids[0].play().catch(()=>{});
+vids.forEach((v,index)=>{
+v.addEventListener("ended",()=>{
+cards[index].classList.remove("active");
+let next=index+1;
+if(next<TOTAL){
+cards[next].classList.add("active");
+vids[next].play().catch(()=>{});
+prog.textContent=(next+1)+" / "+TOTAL;
+barre.style.width=((next+1)/TOTAL*100)+"%";
+}else{
+prog.textContent="12 / 12";
+barre.style.width="100%";
+finalMsg.classList.add("active");
+finalMsg.scrollIntoView({behavior:"smooth"});
+}
+});
+v.addEventListener("error",()=>{v.dispatchEvent(new Event('ended'));});
+});
+}
+</script>
+</body>
+</html>
