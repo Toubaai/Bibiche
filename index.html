@@ -6,61 +6,49 @@
 <title>Happy Birthday Nissi</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:black;overflow:hidden;font-family:Arial,sans-serif;}
-#startScreen{position:fixed;inset:0;background:black;z-index:200;display:flex;flex-direction:column;justify-content:center;align-items:center;color:white;}
-#startScreen button{background:#ff8fab;color:white;border:none;border-radius:30px;padding:18px 35px;font-size:20px;font-weight:bold;margin-top:20px;}
-#compteRebours{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:60px;font-weight:bold;font-style:italic;z-index:10;text-align:center;width:90%;display:none;}
+body{background:black;overflow:hidden;font-family:Arial,sans-serif;-webkit-tap-highlight-color:transparent;}
+#compteRebours{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:white;font-size:60px;font-weight:bold;font-style:italic;z-index:10;text-align:center;width:90%;}
 .coeur{position:fixed;top:-30px;pointer-events:none;animation:tomber 5s linear forwards;z-index:5;}
 @keyframes tomber{from{transform:translateY(0);opacity:1;}to{transform:translateY(110vh);opacity:0;}}
 #explosion{position:fixed;inset:0;background:black;display:none;justify-content:center;align-items:center;z-index:100;}
 #explosion.active{display:flex;animation:flash 2s forwards;}
 .boom{font-size:40px;animation:boomGrow 2s forwards;}
-@keyframes boomGrow{0%{transform:scale(0);}60%{transform:scale(15);}100%{transform:scale(30);opacity:0;}}
-@keyframes flash{0%{background:black;}10%{background:white;}30%{background:#ff8fab;}60%{background:white;}100%{background:black;opacity:0;visibility:hidden;}}
-#pageVideos{position:fixed;inset:0;background:black;display:none;z-index:15;text-align:center;padding:15px;overflow-y:auto;}
-.card{display:none;width:100%;max-width:340px;margin:15px auto;background:#111;border-radius:20px;overflow:hidden;}
-.card.active{display:block;}
-video{width:100%;height:65vh;object-fit:cover;display:block;background:#111;}
-#progress{color:white;margin:10px;opacity:0.7;}
+@keyframes boomGrow{0%{transform:scale(0);opacity:1;}30%{transform:scale(5);}60%{transform:scale(15);opacity:1;}100%{transform:scale(30);opacity:0;}}
+@keyframes flash{0%{background:black;}10%{background:white;}20%{background:black;}30%{background:white;}40%{background:#ff8fab;}60%{background:white;}80%{background:#ff8fab;}100%{background:black;opacity:0;visibility:hidden;}}
+#pageVideos{position:fixed;inset:0;background:black;display:none;z-index:15;text-align:center;padding:15px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.card{display:none;width:100%;max-width:340px;margin:15px auto;background:#111;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(255,100,150,0.4);}
+.card.active{display:block;animation:pop 0.6s ease;}
+@keyframes pop{from{opacity:0;transform:scale(0.9) translateY(30px);}to{opacity:1;transform:scale(1) translateY(0);}}
+video{width:100%;height:70vh;max-height:600px;object-fit:cover;display:block;background:#111;}
+#progress{color:white;margin:10px;opacity:0.7;font-size:14px;}
 .barre{width:100%;max-width:340px;height:4px;background:#333;margin:0 auto 10px;border-radius:10px;overflow:hidden;}
 .barreFill{height:100%;width:8.33%;background:#ff8fab;transition:0.5s;}
-#finalMessage{display:none;width:100%;max-width:340px;margin:20px auto;background:#111;border-radius:20px;padding:25px;text-align:left;}
+h2{color:white;margin-bottom:10px;font-size:22px;}
+#finalMessage{display:none;width:100%;max-width:340px;margin:30px auto 0;background:#111;border-radius:20px;padding:25px;box-shadow:0 10px 30px rgba(255,100,150,0.4);animation:pop 0.8s ease;text-align:left;}
 #finalMessage.active{display:block;}
-#finalMessage p{color:white;line-height:1.6;white-space:pre-wrap;}
-#finalMessage h3{color:#ff8fab;text-align:center;margin-bottom:10px;}
-#btnMusic{position:fixed;bottom:20px;right:20px;z-index:999;background:#ff8fab;color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:bold;display:none;}
+#finalMessage p{color:white;font-size:16px;line-height:1.6;white-space:pre-wrap;}
+#finalMessage h3{color:#ff8fab;text-align:center;margin-bottom:15px;font-size:20px;}
 </style>
 </head>
 <body>
-
-<div id="startScreen">
-<h2>Pour Nissi ❤️</h2>
-<p style="opacity:0.6;margin-top:10px;">Clique pour commencer</p>
-<button id="btnStart">Tape ici 🎉</button>
-</div>
-
 <div id="compteRebours">3</div>
 <div id="explosion"><div class="boom">💥</div></div>
-<button id="btnMusic">🔊</button>
-
 <div id="pageVideos">
-<h2 style="color:white;">Pour toi Nissi ❤️</h2>
+<h2>Pour toi Nissi ❤️</h2>
 <div id="progress">1 / 12</div>
 <div class="barre"><div class="barreFill" id="barreFill"></div></div>
-
-<div class="card active"><video muted playsinline webkit-playsinline preload="auto"><source src="video1.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video2.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video3.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video4.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video5.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video6.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video7.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video8.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video9.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video10.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video11.mp4" type="video/mp4"></video></div>
-<div class="card"><video muted playsinline webkit-playsinline preload="metadata"><source src="video12.mp4" type="video/mp4"></video></div>
-
+<div class="card active"><video muted playsinline autoplay src="video1.mp4"></video></div>
+<div class="card"><video muted playsinline src="video2.mp4"></video></div>
+<div class="card"><video muted playsinline src="video3.mp4"></video></div>
+<div class="card"><video muted playsinline src="video4.mp4"></video></div>
+<div class="card"><video muted playsinline src="video5.mp4"></video></div>
+<div class="card"><video muted playsinline src="video6.mp4"></video></div>
+<div class="card"><video muted playsinline src="video7.mp4"></video></div>
+<div class="card"><video muted playsinline src="video8.mp4"></video></div>
+<div class="card"><video muted playsinline src="video9.mp4"></video></div>
+<div class="card"><video muted playsinline src="video10.mp4"></video></div>
+<div class="card"><video muted playsinline src="video11.mp4"></video></div>
+<div class="card"><video muted playsinline src="video12.mp4"></video></div>
 <div id="finalMessage">
 <h3>Mon amour ❤️</h3>
 <p>Joyeux anniversaire mon amour toi et moi c'est jusqu'à la fin. Aucune dispute ne pourra nous séparer et même si tu veux t'en aller je vais rester coller a toi.
@@ -70,52 +58,56 @@ Cette année a été éprouvante pour toi mais on laisse tous ça dans le passé
 Tu es une queen ma BIBICHE JE T'AIME 🥹</p>
 </div>
 </div>
-
-<audio id="musique" loop preload="auto"><source src="musique.mp3" type="audio/mpeg"></audio>
-
+<audio id="musique" loop><source src="musique.mp3.mpeg" type="audio/mpeg"></audio>
 <script>
-const startScreen=document.getElementById("startScreen");
-const btnStart=document.getElementById("btnStart");
 const compteRebours=document.getElementById("compteRebours");
 const musique=document.getElementById("musique");
 const explosion=document.getElementById("explosion");
 const pageVideos=document.getElementById("pageVideos");
-const btnMusic=document.getElementById("btnMusic");
 const TOTAL=12;
-
-btnStart.addEventListener("click",()=>{
-startScreen.style.display="none";
-compteRebours.style.display="block";
-btnMusic.style.display="block";
-musique.play().catch(()=>{});
-demarrerCompte();
-});
-
-btnMusic.onclick=()=>{if(musique.paused){musique.play();btnMusic.textContent="🔊";}else{musique.pause();btnMusic.textContent="🔇";}};
-
-function demarrerCompte(){
-let n=3;compteRebours.textContent=n;
-let timer=setInterval(()=>{n--;if(n>0)compteRebours.textContent=n;else{clearInterval(timer);
-setInterval(()=>{let c=document.createElement("div");c.className="coeur";c.textContent="❤️";c.style.left=Math.random()*100+"vw";c.style.fontSize=(15+Math.random()*25)+"px";document.body.appendChild(c);setTimeout(()=>c.remove(),5000);},200);
-let t="HAPPY BIRTHDAY NISSI 🎉",i=0;compteRebours.textContent="";
-let e=setInterval(()=>{compteRebours.textContent+=t[i];i++;if(i>=t.length){clearInterval(e);
-setTimeout(()=>{explosion.style.display="flex";explosion.classList.add("active");
-setTimeout(()=>{compteRebours.style.display="none";pageVideos.style.display="block";document.body.style.overflow="auto";lancer();},2000);},1500);}},150);}},1000);
+function playMusic(){musique.play().catch(()=>{});}
+playMusic();
+document.body.addEventListener('click',playMusic,{once:true});
+document.body.addEventListener('touchstart',playMusic,{once:true});
+let nombre=3;
+compteRebours.textContent=nombre;
+let timer=setInterval(()=>{
+nombre--;
+if(nombre>0){compteRebours.textContent=nombre;}
+else{
+clearInterval(timer);
+setInterval(creerCoeur,200);
+playMusic();
+let texte="HAPPY BIRTHDAY NISSI 🎉";
+let i=0;
+compteRebours.textContent="";
+let ecrit=setInterval(()=>{
+compteRebours.textContent+=texte[i];
+i++;
+if(i>=texte.length){
+clearInterval(ecrit);
+setTimeout(()=>{
+explosion.style.display="flex";
+explosion.classList.add("active");
+setTimeout(()=>{
+compteRebours.style.display="none";
+pageVideos.style.display="block";
+document.body.style.overflow="auto";
+lancerVideos();
+},2000);
+},1500);
 }
-
-function lancer(){
-let cards=document.querySelectorAll(".card"),vids=document.querySelectorAll("video"),prog=document.getElementById("progress"),barre=document.getElementById("barreFill"),finalMsg=document.getElementById("finalMessage");
-vids[0].play().catch(e=>{console.log(e);});
-vids.forEach((v,idx)=>{
-v.addEventListener("ended",()=>{
-cards[idx].classList.remove("active");
-let next=idx+1;
-if(next<TOTAL){cards[next].classList.add("active");vids[next].play().catch(()=>{});prog.textContent=(next+1)+" / "+TOTAL;barre.style.width=((next+1)/TOTAL*100)+"%";}
-else{prog.textContent="12 / 12";barre.style.width="100%";finalMsg.classList.add("active");}
-});
-v.addEventListener("error",()=>{cards[idx].innerHTML="<p style='color:white;padding:20px'>Vidéo "+(idx+1)+" non chargée sur téléphone<br>Vérifie qu'elle fait moins de 25Mo</p>";setTimeout(()=>v.dispatchEvent(new Event('ended')),2000);});
-});
+},150);
 }
-</script>
-</body>
-</html>
+},1000);
+function creerCoeur(){
+let c=document.createElement("div");
+c.className="coeur";
+c.textContent="❤️";
+c.style.left=Math.random()*100+"vw";
+c.style.fontSize=(15+Math.random()*25)+"px";
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),5000);
+}
+function lancerVideos(){
+let cards=document.querySelector
