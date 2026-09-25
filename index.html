@@ -19,7 +19,7 @@ body{background:black;overflow:hidden;font-family:Arial,sans-serif;-webkit-tap-h
 .card{display:none;width:100%;max-width:340px;margin:15px auto;background:#111;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(255,100,150,0.4);}
 .card.active{display:block;animation:pop 0.6s ease;}
 @keyframes pop{from{opacity:0;transform:scale(0.9) translateY(30px);}to{opacity:1;transform:scale(1) translateY(0);}}
-video{width:100%;height:70vh;max-height:600px;object-fit:cover;display:block;background:#111;}
+video{width:100%;height:70vh;max-height:600px;object-fit:cover;display:block;background:#111;transform:translateZ(0);}
 #progress{color:white;margin:10px;opacity:0.7;font-size:14px;}
 .barre{width:100%;max-width:340px;height:4px;background:#333;margin:0 auto 10px;border-radius:10px;overflow:hidden;}
 .barreFill{height:100%;width:8.33%;background:#ff8fab;transition:0.5s;}
@@ -28,27 +28,29 @@ h2{color:white;margin-bottom:10px;font-size:22px;}
 #finalMessage.active{display:block;}
 #finalMessage p{color:white;font-size:16px;line-height:1.6;white-space:pre-wrap;}
 #finalMessage h3{color:#ff8fab;text-align:center;margin-bottom:15px;font-size:20px;}
+#btnMusic{position:fixed;bottom:20px;right:20px;z-index:50;background:#ff8fab;color:white;border:none;border-radius:50px;padding:12px 18px;font-weight:bold;box-shadow:0 5px 15px rgba(0,0,0,0.5);display:flex;align-items:center;gap:6px;}
 </style>
 </head>
 <body>
 <div id="compteRebours">3</div>
 <div id="explosion"><div class="boom">💥</div></div>
+<button id="btnMusic">🎵 Musique</button>
 <div id="pageVideos">
 <h2>Pour toi Nissi ❤️</h2>
 <div id="progress">1 / 12</div>
 <div class="barre"><div class="barreFill" id="barreFill"></div></div>
-<div class="card active"><video muted playsinline autoplay src="video1.mp4"></video></div>
-<div class="card"><video muted playsinline src="video2.mp4"></video></div>
-<div class="card"><video muted playsinline src="video3.mp4"></video></div>
-<div class="card"><video muted playsinline src="video4.mp4"></video></div>
-<div class="card"><video muted playsinline src="video5.mp4"></video></div>
-<div class="card"><video muted playsinline src="video6.mp4"></video></div>
-<div class="card"><video muted playsinline src="video7.mp4"></video></div>
-<div class="card"><video muted playsinline src="video8.mp4"></video></div>
-<div class="card"><video muted playsinline src="video9.mp4"></video></div>
-<div class="card"><video muted playsinline src="video10.mp4"></video></div>
-<div class="card"><video muted playsinline src="video11.mp4"></video></div>
-<div class="card"><video muted playsinline src="video12.mp4"></video></div>
+<div class="card active"><video muted playsinline preload="auto" src="video1.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video2.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video3.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video4.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video5.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video6.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video7.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video8.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video9.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video10.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video11.mp4"></video></div>
+<div class="card"><video muted playsinline preload="metadata" src="video12.mp4"></video></div>
 <div id="finalMessage">
 <h3>Mon amour ❤️</h3>
 <p>Joyeux anniversaire mon amour toi et moi c'est jusqu'à la fin. Aucune dispute ne pourra nous séparer et même si tu veux t'en aller je vais rester coller a toi.
@@ -58,17 +60,24 @@ Cette année a été éprouvante pour toi mais on laisse tous ça dans le passé
 Tu es une queen ma BIBICHE JE T'AIME 🥹</p>
 </div>
 </div>
-<audio id="musique" loop><source src="musique.mp3.mpeg" type="audio/mpeg"></audio>
+<audio id="musique" loop preload="auto"><source src="musique.mp3.mpeg" type="audio/mpeg"></audio>
 <script>
 const compteRebours=document.getElementById("compteRebours");
 const musique=document.getElementById("musique");
 const explosion=document.getElementById("explosion");
 const pageVideos=document.getElementById("pageVideos");
+const btnMusic=document.getElementById("btnMusic");
 const TOTAL=12;
-function playMusic(){musique.play().catch(()=>{});}
+let musicOn=false;
+function playMusic(){
+musique.play().then(()=>{musicOn=true;btnMusic.textContent="🔊 Musique ON";}).catch(()=>{});
+}
+function toggleMusic(){
+if(musicOn){musique.pause();musicOn=false;btnMusic.textContent="🎵 Musique";}else{playMusic();}
+}
+btnMusic.addEventListener('click',toggleMusic);
 playMusic();
-document.body.addEventListener('click',playMusic,{once:true});
-document.body.addEventListener('touchstart',playMusic,{once:true});
+document.body.addEventListener('touchstart',()=>{if(!musicOn)playMusic();},{once:true});
 let nombre=3;
 compteRebours.textContent=nombre;
 let timer=setInterval(()=>{
@@ -77,7 +86,6 @@ if(nombre>0){compteRebours.textContent=nombre;}
 else{
 clearInterval(timer);
 setInterval(creerCoeur,200);
-playMusic();
 let texte="HAPPY BIRTHDAY NISSI 🎉";
 let i=0;
 compteRebours.textContent="";
@@ -116,6 +124,7 @@ let prog=document.getElementById("progress");
 let barre=document.getElementById("barreFill");
 let finalMsg=document.getElementById("finalMessage");
 vids[0].play().catch(()=>{});
+for(let k=1;k<3;k++){if(vids[k])vids[k].load();}
 vids.forEach((v,index)=>{
 v.addEventListener("ended",()=>{
 cards[index].classList.remove("active");
@@ -123,6 +132,7 @@ let next=index+1;
 if(next<TOTAL){
 cards[next].classList.add("active");
 vids[next].play().catch(()=>{});
+if(vids[next+1])vids[next+1].load();
 prog.textContent=(next+1)+" / "+TOTAL;
 barre.style.width=((next+1)/TOTAL*100)+"%";
 }else{
