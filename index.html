@@ -1,0 +1,165 @@
+Parfait, maintenant les vidéos sont en sourdine, petite taille pro, et elles défilent toutes seules.
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Nissi</title>
+    <style>
+        body { margin: 0; background-color: black; overflow: hidden; }
+        #compteRebours {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; font-size: 60px; font-style: italic; font-weight: bold;
+            text-align: center; z-index: 10; font-family: Arial, sans-serif;
+        }
+      .coeur { position: fixed; top: -30px; pointer-events: none; animation: tomber 5s linear forwards; z-index: 5; }
+        @keyframes tomber { from { transform: translateY(0); opacity: 1; } to { transform: translateY(110vh); opacity: 0; } }
+
+        /* BOOM GEANT */
+        #explosion{ position:fixed; inset:0; background:black; display:none; justify-content:center; align-items:center; z-index:100; }
+        #explosion.active{ display:flex; animation: flashCinema 2s forwards; }
+      .boom{ font-size:40px; animation: boomGeant 2s forwards; text-shadow: 0 0 20px white, 0 0 40px #ff8fab; }
+        @keyframes boomGeant{
+            0%{ transform:scale(0); opacity:1; } 20%{ transform:scale(1.5); } 35%{ transform:scale(6); }
+            50%{ transform:scale(12) rotate(10deg); opacity:1; } 70%{ transform:scale(20) rotate(-10deg); opacity:0.8; }
+            100%{ transform:scale(35); opacity:0; }
+        }
+        @keyframes flashCinema{
+            0%{ background:black; } 10%{ background:white; } 18%{ background:black; } 25%{ background:white; }
+            35%{ background:#ff8fab; } 50%{ background:white; } 65%{ background:#ff8fab; }
+            80%{ background:white; } 90%{ background:black; } 100%{ background:black; opacity:0; visibility:hidden; }
+        }
+
+        /* VIDEOS AUTO */
+        #pageVideos{
+            position:fixed; inset:0; background:black; display:none;
+            z-index:15; color:white; text-align:center; padding:20px;
+        }
+      .card{
+            display:none; background:#111; border-radius:20px; overflow:hidden;
+            width: 90%; max-width: 320px; /* TAILLE ARRANGEE - plus petit et joli */
+            margin:20px auto;
+            box-shadow: 0 10px 30px rgba(255,100,150,0.4);
+            animation: apparait 0.8s forwards;
+        }
+      .card.active{ display:block; }
+        @keyframes apparait{ from{opacity:0; transform:translateY(50px) scale(0.9);} to{opacity:1; transform:translateY(0) scale(1);} }
+        video{ width:100%; height: 550px; object-fit: cover; display:block; } /* format TikTok/Story */
+        #progress{ margin-top:15px; opacity:0.6; font-size:14px; letter-spacing:2px; }
+      .barre{ width:90%; max-width:320px; height:4px; background:#333; margin:10px auto; border-radius:10px; overflow:hidden; }
+      .barreFill{ height:100%; width:16%; background:#ff8fab; transition: width 0.5s; }
+    </style>
+</head>
+<body>
+
+    <div id="compteRebours">3</div>
+    <div id="explosion"><div class="boom">💥</div></div>
+
+    <div id="pageVideos">
+        <h2 style="margin:10px 0;">Pour toi Nissi ❤️</h2>
+        <div id="progress">1 / 6</div>
+        <div class="barre"><div class="barreFill" id="barreFill"></div></div>
+
+        <!-- TOUTES EN SOURDINE + AUTOPLAY -->
+        <div class="card active"><video muted playsinline autoplay src="video1.mp4"></video></div>
+        <div class="card"><video muted playsinline src="video2.mp4"></video></div>
+        <div class="card"><video muted playsinline src="video3.mp4"></video></div>
+        <div class="card"><video muted playsinline src="video4.mp4"></video></div>
+        <div class="card"><video muted playsinline src="video5.mp4"></video></div>
+        <div class="card"><video muted playsinline src="video6.mp4"></video></div>
+    </div>
+
+    <audio id="musique" loop autoplay><source src="musique.mp3.mpeg" type="audio/mpeg"></audio>
+
+    <script>
+        const compteRebours = document.getElementById("compteRebours");
+        const musique = document.getElementById("musique");
+        const explosion = document.getElementById("explosion");
+        const pageVideos = document.getElementById("pageVideos");
+
+        const playMusic = () => { musique.play().catch(()=>{}); };
+        playMusic();
+        document.addEventListener('click', playMusic, {once:true});
+        document.addEventListener('touchstart', playMusic, {once:true});
+
+        let nombre = 3;
+        const compteur = setInterval(function() {
+            nombre--;
+            if (nombre > 0) {
+                compteRebours.innerHTML = nombre;
+            } else {
+                clearInterval(compteur);
+                setInterval(creerCoeur, 200);
+                playMusic();
+                const texte = "HAPPY BIRTHDAY NISSI 🎉";
+                let index = 0;
+                compteRebours.innerHTML = "";
+                const ecriture = setInterval(function() {
+                    compteRebours.innerHTML += texte[index];
+                    index++;
+                    if (index === texte.length) {
+                        clearInterval(ecriture);
+                        setTimeout(()=>{
+                            explosion.classList.add("active");
+                            explosion.style.display="flex";
+                            setTimeout(()=>{
+                                compteRebours.style.display="none";
+                                pageVideos.style.display="block";
+                                lancerVideosAuto();
+                            },2000);
+                        },1500);
+                    }
+                }, 150);
+            }
+        }, 1000);
+
+        function creerCoeur() {
+            const coeur = document.createElement("div");
+            coeur.classList.add("coeur");
+            coeur.innerHTML = "❤️";
+            coeur.style.left = Math.random() * 100 + "vw";
+            coeur.style.fontSize = (15 + Math.random() * 30) + "px";
+            coeur.style.animationDuration = (3 + Math.random() * 4) + "s";
+            document.body.appendChild(coeur);
+            setTimeout(() => coeur.remove(), 7000);
+        }
+
+        // VIDEOS QUI DEFILENT SEULES EN SOURDINE
+        function lancerVideosAuto(){
+            const cards = document.querySelectorAll('.card');
+            const progress = document.getElementById('progress');
+            const barreFill = document.getElementById('barreFill');
+            let current = 0;
+            let videos = document.querySelectorAll('video');
+
+            // lance la première
+            videos[0].play();
+
+            videos.forEach((vid, i) => {
+                vid.addEventListener('ended', () => {
+                    cards[i].classList.remove('active');
+                    let next = i+1;
+                    if(next < cards.length){
+                        cards[next].classList.add('active');
+                        videos[next].play();
+                        progress.innerText = (next+1) + " / 6";
+                        barreFill.style.width = ((next+1)/6*100) + "%";
+                    } else {
+                        // Fini, on reboucle
+                        progress.innerText = "On recommence ❤️";
+                        barreFill.style.width = "100%";
+                        setTimeout(()=>{
+                            cards.forEach(c=>c.classList.remove('active'));
+                            cards[0].classList.add('active');
+                            videos[0].currentTime=0;
+                            videos[0].play();
+                            progress.innerText = "1 / 6";
+                            barreFill.style.width = "16%";
+                        },1500);
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
